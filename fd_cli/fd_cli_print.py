@@ -18,9 +18,9 @@ def fd_cli_print_raw(
         fill: int = 25
 ) -> None:
     if pre == 0:
-        print(f'{value:{fill}s}')
+        print(f':{fill}s {value}')
     else:
-        print(f'{" " * pre * 4}{value:{fill}s}')
+        print(f'{" " * pre * 4} {value}')
 
 
 def fd_cli_print_value(
