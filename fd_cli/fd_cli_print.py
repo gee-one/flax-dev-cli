@@ -3,6 +3,14 @@ import typing
 # noinspection PyPackageRequirements
 import chia.types.full_block
 
+from chia.util.byte_types import (
+    hexstr_to_bytes
+)
+
+from chia.types.blockchain_format.sized_bytes import (
+    bytes32
+)
+
 
 def fd_cli_print_raw(
         value: typing.Any,
@@ -145,15 +153,19 @@ def fd_cli_print_coin_lite(
         ctx: list,
         pre: int = 0
 ) -> None:
-    hash: str = ctx[0]
-    puzzle_hash: str = ctx[5]
-    amount: int = int.from_bytes(ctx[7], byteorder='big', signed=False)
-    timestamp: int = ctx[8]
+    hash_b32: bytes32 = ctx[0]
+    hash: str = hash_b32.hex()
+    puzzle_hash_b32: str = ctx[4]
+    puzzle_hash: str = puzzle_hash_b32.hex()
+    amount: int = int.from_bytes(ctx[6], byteorder='big', signed=False)
+    timestamp: int = ctx[7]
+    confirmed_at: int = ctx[1]
 
-    fd_cli_print_value('hash', hash, pre=pre)
-    fd_cli_print_value('puzzle_hash', puzzle_hash, pre=pre)
+    fd_cli_print_value('hash', "0x"+hash, pre=pre)
+    fd_cli_print_value('puzzle_hash', "0x"+puzzle_hash, pre=pre)
     fd_cli_print_value('amount', amount, pre=pre)
     fd_cli_print_value('timestamp', timestamp, pre=pre)
+    fd_cli_print_value('confirmed height', confirmed_at, pre=pre)
 
 
 def fd_cli_print_coin_many(
